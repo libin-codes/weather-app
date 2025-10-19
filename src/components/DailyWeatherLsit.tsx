@@ -2,7 +2,7 @@ import DailyWeatherCard from "./DailyWeatherCard";
 
 export default function DailyWeatherList() {
   return (
-    <div className="flex flex-row flex-wrap gap-3 ">
+    <div className="grid grid-cols-[repeat(auto-fit,_minmax(95px,_1fr))] auto-rows-auto gap-3 ">
       <DailyWeatherCard />
       <DailyWeatherCard />
       <DailyWeatherCard />

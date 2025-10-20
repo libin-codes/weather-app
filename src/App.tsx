@@ -12,15 +12,13 @@ function App() {
       <h1 className="text-center w-full text-white text-5xl my-8 font-bold">How's the sky looking today?</h1>
 
       <SearchContainer/>
-      <div className="grid lg:grid-cols-[65%_35%]  gap-6 mt-8">
+      <div className="grid lg:grid-cols-[65%_35%] gap-6 mt-8 @container">
         <div>
           <WeatherInfoCard />
           <WeatherDetailList/>
           <DailyForecastContainer/>
         </div>
-        <div>
-          <HourlyForecastContainer/>
-        </div>
+          <HourlyForecastContainer />
       </div>
       
       

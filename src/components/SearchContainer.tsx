@@ -1,4 +1,5 @@
 import searchIcon from "../assets/images/icon-search.svg"
+import { Button } from "./ui/button"
 
 export default function SearchContainer() {
   return (
@@ -7,7 +8,7 @@ export default function SearchContainer() {
         <img src={searchIcon} alt="" className="w-5 h-5 "  />
         <input type="text" placeholder="Search for a place..." className="outline-0 w-full text-white " />
       </div>
-      <button className="text-white px-10 py-3 bg-[#4658D9] rounded-md cursor-pointer">Search</button>
+      <Button variant={'accent'} size={"lg"} >Search</Button>
     </div>
   )
 }

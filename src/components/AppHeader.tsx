@@ -15,11 +15,33 @@ import {
 } from "./ui/dropdown-menu";
 import { useState } from "react";
 
+interface Unit {
+  name: string,
+  metric: string,
+  imperial: string
+}
 
 export default function AppHeader() {
 
   const [isMetric, setIsMetric] = useState(true)
 
+  const units: Unit[] = [
+    {
+      name: "Temperature",
+      metric: "Celsius",
+      imperial: "Fahrenheit"
+    },
+    {
+      name: "Wind Speed",
+      metric: "km/h",
+      imperial: "mph"
+    },
+    {
+      name: "Precipitation",
+      metric: "Millimeters (mm)",
+      imperial: "inches (in)"
+    }
+  ]
   return (
     <div className="flex justify-between">
       <img src={AppLogo} alt="" className="w-40" />
@@ -33,29 +55,31 @@ export default function AppHeader() {
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className=" w-50 " align="end">
+        <DropdownMenuContent className=" w-56 p-1.5" align="end">
           <Button variant={'accent'} className=" border-0 w-full" onClick={
-            ()=>{
+            () => {
               setIsMetric(!isMetric)
             }
           }>Switch to {(isMetric) ? "Imperial" : "Metric"}</Button>
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-xs opacity-70 font-light">Temperature</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem checked={isMetric} >Celsius</DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={!isMetric}>Fahrenheit</DropdownMenuCheckboxItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator className="mx-1" />
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-xs opacity-70 font-light">Wind Speed</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem checked={isMetric}>km/h</DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={!isMetric}>mph</DropdownMenuCheckboxItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator className="mx-1" />
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-xs opacity-70 font-light">Precipitation</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem checked={isMetric}>Millimeters (mm)</DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={!isMetric}>inches (in)</DropdownMenuCheckboxItem>
-          </DropdownMenuGroup>
+
+          {
+            units.map(
+              (unit,index) => {
+                return (
+                  <>
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel className="text-xs opacity-70 font-light">{unit.name}</DropdownMenuLabel>
+                      <DropdownMenuCheckboxItem checked={isMetric} >{unit.metric}</DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem checked={!isMetric}>{unit.imperial}</DropdownMenuCheckboxItem>
+                    </DropdownMenuGroup>
+                    {index < (units.length-1) && <DropdownMenuSeparator className="mx-1" />}
+                  </>
+                )
+              }
+            )
+          }
+
+        
         </DropdownMenuContent>
       </DropdownMenu>
 

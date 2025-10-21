@@ -10,8 +10,8 @@ export default function HourlyForecastContainer() {
       <div className="flex justify-between items-center w-full h-fit mb-4 text-white">
         <h1 className="text-lg font-medium">Hourly forecast</h1>
         <Select defaultValue="0" >
-          <SelectTrigger className="bg-accent w-32 focus-visible:ring-0 [&>span]:flex [&>span]:justify-center [&>span]:flex-1">
-            <SelectValue placeholder={week[0]}  />
+          <SelectTrigger className="bg-accent w-32 focus-visible:ring-0 font-medium [&>span]:flex [&>span]:justify-center [&>span]:flex-1">
+            <SelectValue placeholder={week[0]} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

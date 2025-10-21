@@ -47,8 +47,8 @@ export default function AppHeader() {
       <img src={AppLogo} alt="" className="w-40" />
 
       <DropdownMenu >
-        <DropdownMenuTrigger className="bg-accent flex focus-visible:ring-0 rounded-md outline-1 text-white">
-          <Button>
+        <DropdownMenuTrigger asChild className=" flex focus-visible:ring-0 rounded-md outline-1 text-white">
+          <Button variant={"secondary"}>
             <SettingsIcon />
             <p>Units</p>
             <DropDownIcon />
@@ -56,7 +56,7 @@ export default function AppHeader() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className=" w-56 p-1.5" align="end">
-          <Button variant={'accent'} className=" border-0 w-full" onClick={
+          <Button className=" border-0 w-full" onClick={
             () => {
               setIsMetric(!isMetric)
             }
@@ -66,14 +66,14 @@ export default function AppHeader() {
             units.map(
               (unit,index) => {
                 return (
-                  <>
-                    <DropdownMenuGroup>
+                  <div key={index}>
+                    <DropdownMenuGroup >
                       <DropdownMenuLabel className="text-xs opacity-70 font-light">{unit.name}</DropdownMenuLabel>
                       <DropdownMenuCheckboxItem checked={isMetric} >{unit.metric}</DropdownMenuCheckboxItem>
                       <DropdownMenuCheckboxItem checked={!isMetric}>{unit.imperial}</DropdownMenuCheckboxItem>
                     </DropdownMenuGroup>
                     {index < (units.length-1) && <DropdownMenuSeparator className="mx-1" />}
-                  </>
+                  </div>
                 )
               }
             )

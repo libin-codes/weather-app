@@ -1,7 +1,7 @@
-import AppLogo from "../assets/images/logo.svg"
+import AppLogo from "../../assets/images/logo.svg"
 import { Settings as SettingsIcon } from "lucide-react"
 import { ChevronDown as DropDownIcon } from 'lucide-react';
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 
-} from "./ui/dropdown-menu";
-import { useState } from "react";
+} from "../ui/dropdown-menu";
 
 interface Unit {
   name: string,
@@ -21,9 +20,23 @@ interface Unit {
   imperial: string
 }
 
-export default function AppHeader() {
+type UnitMap = {
+  metric:{
+    temperature:string,
+    windSpeed:string,
+    precipitation:string
+  },
+  imperial:{
+    temperature:string,
+    windSpeed:string,
+    precipitation:string
+  }
+}
 
-  const [isMetric, setIsMetric] = useState(true)
+type UnitType = keyof UnitMap; 
+
+
+export default function AppHeader({unit,setUnit}:{unit:UnitType,setUnit:(value:UnitType)=>void}) {
 
   const units: Unit[] = [
     {
@@ -58,19 +71,19 @@ export default function AppHeader() {
         <DropdownMenuContent className=" w-56 p-1.5" align="end">
           <Button className=" border-0 w-full" onClick={
             () => {
-              setIsMetric(!isMetric)
+              setUnit((unit=="metric")?"imperial":"metric")
             }
-          }>Switch to {(isMetric) ? "Imperial" : "Metric"}</Button>
+          }>Switch to {(unit=="metric")?"Imperial":"Metric"}</Button>
 
           {
             units.map(
-              (unit,index) => {
+              (u,index) => {
                 return (
                   <div key={index}>
                     <DropdownMenuGroup >
-                      <DropdownMenuLabel className="text-xs opacity-70 font-light">{unit.name}</DropdownMenuLabel>
-                      <DropdownMenuCheckboxItem checked={isMetric} >{unit.metric}</DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem checked={!isMetric}>{unit.imperial}</DropdownMenuCheckboxItem>
+                      <DropdownMenuLabel className="text-xs opacity-70 font-light">{u.name}</DropdownMenuLabel>
+                      <DropdownMenuCheckboxItem checked={unit==="metric"} >{u.metric}</DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem checked={unit==="imperial"}>{u.imperial}</DropdownMenuCheckboxItem>
                     </DropdownMenuGroup>
                     {index < (units.length-1) && <DropdownMenuSeparator className="mx-1" />}
                   </div>

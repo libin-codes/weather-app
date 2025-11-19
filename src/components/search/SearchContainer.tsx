@@ -26,9 +26,19 @@ interface SearchContainerProps {
 
 async function fetchSearchSuggestions(query: string) {
   if (!query.trim()) return [];
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=3&language=en&format=json`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&format=json`;
   const request = await axios.get(url);
-  return request.data.results ?? [];
+  const suggestions = request.data.results.sort( ) ?? []
+  suggestions.sort((a,b)=>{
+    if (a.country_code=="IN"){
+      return -1
+    }else if (b.country_code=="IN"){
+      return 1
+    }else{
+      return 0
+    }
+  })
+  return suggestions;
 }
 
 

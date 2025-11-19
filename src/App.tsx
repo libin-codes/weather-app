@@ -5,7 +5,7 @@ import HourlyForecastContainer from "./components/forecast/HourlyForecastContain
 import WeatherDetailList from "./components/weather/WeatherDetailList"
 import DailyForecastContainer from "./components/forecast/DailyForecastContainer"
 import { fetchWeatherApi } from "openmeteo"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
@@ -50,6 +50,26 @@ const unitMap:UnitMap = {
 }
 
 type UnitType = keyof UnitMap; 
+
+async function fetchCityCountry(lat:number, lon:number) {
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+  );
+  const data = await res.json();
+
+  const userLocation:Location = {
+    coordinate:[lat,lon],
+    cityName:
+      data.address.city ||
+      data.address.town ||
+      data.address.village ||
+      data.address.hamlet,
+    countryName: data.address.country,
+  }
+
+  return userLocation;
+}
+
 
 async function fetchWeatherData(coordinate: [number, number],unit:UnitType) {
   const params = {
@@ -149,6 +169,8 @@ async function fetchWeatherData(coordinate: [number, number],unit:UnitType) {
 
 function App() {
 
+  
+
   const [location, setLocation] = useState<Location>(null)
   const [unit,setUnit] = useState<UnitType>('metric')
 
@@ -159,6 +181,20 @@ function App() {
       staleTime: 3 * 60 * 1000,
       enabled: (location != null)
     }
+  )
+
+  useEffect(
+    ()=>{
+      navigator.geolocation.getCurrentPosition(
+        async(pos)=>{
+          if (!location){
+            const userLocation = await fetchCityCountry(pos.coords.latitude,pos.coords.longitude)
+            setLocation(userLocation)
+          }
+        }
+      )
+    },
+    [location]
   )
 
   return (
